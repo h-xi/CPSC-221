@@ -1,0 +1,57 @@
+Djikstr's Algorithm: 
+
+Single Source, Shortest Path 
+
+Given a graph G = (V, E) and vertex s, find the shortest path from s to every vertex in V 
+
+Many Variations: 
+
+    - Wdighted vs unweighted 
+    - Cyclic vs acyclic 
+    - Positive weight only vs negative weights allowed 
+    - Multiple weight types to optimize 
+
+
+Djikstra's Algorithm CANNOT handle negative weighted cycles 
+
+- Classic Algorithm for solving shortest path in weighted graphs without negative weights 
+- Greedy algorithm (irrevocably makes decisions without considering future consequences)
+
+Intuition: 
+- Shortest path from source vertex to itself is 0 
+- Cost of going to adjacent nodes is at most edge weights 
+- Cheapest of these must be shortest path to that node 
+- Update path for new node and continue picking cheapest path
+
+Fails negative weights B/C --> You can never make back the cost you accumulate 
+
+- Once I choose an edge, I assume that is THE shortest path 
+
+PseudoCode: 
+
+- Initialize the cost of the source to 0 
+- Initialize the cost of all other nodes to infinity; add to PQ 
+- While there are (unknown) nodes in the PQ 
+    - Remove the one n with the lowest cost --> Mark as known
+    - For each node a adjacent to n --> a's cost = min(a's old cost, n's cost + cost of (n,a))
+
+
+RunTime: O(m + n(log(n)))
+
+findMind + deleteMin = n* O(log(n))
+
+a's cost = min(a's old cost, new cost) --> O(m(logn))
+    - fix heap with heapifyUp --> O(logn) --> m times 
+    - find by name (dictionary lookup!)
+
+
+Fibonacci Heaps: IF # of edges greater than vertices
+
+- Variation on Priority Queues 
+- Amortized O(1) time bound for decreaseKey 
+- O(logn) time for deleteMin 
+
+HOWEVER --> if we have a very dense graph where m is proportonal to squared of n 
+--> priority queue works JUST AS GOOD 
+
+

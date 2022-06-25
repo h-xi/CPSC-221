@@ -1,0 +1,74 @@
+B-Tree utilized with large data sets to reduce # of disk reads
+
+
+m-ary Search Tree: 
+
+    - Each node has <= m children 
+
+Search Tree Property: 
+    
+    - Each node has <= m-1 search keys: k1 < k2 < k3 < ..
+    - All keys k in the ith subtree obey ki < k < ki+1 for i = 0, 1...
+
+B-Trees: 
+
+    - B-Tree of order m are specialized m-ary search tree: 
+        - ALL leaves are at the same depth 
+        - ALL nodes hold between ceiling(m/2 - 1) and m-1 keys (root may have between - and m-1 keys)
+        - Internal nodes have between ceiling(m/2) and m children (except root)
+
+B-Tree Nodes: 
+
+    - May maintain sibling pointers 
+    - Maintain variable to let us know what part of array is unused
+    - Start with empty B-Tree 
+        - Even empty tree has a root 
+
+
+Result: 
+
+    - Height is O(logm/2(n))
+    - Insert, remove and find visit O(logm/2(n)) nodes
+    - m is chosen so that each (full) node fills one page of memory 
+        Each node visit retrieves between m/2 and m keys 
+
+B-Tree Insert (3-ary tree): 
+
+    - Insert unto root until m-1 limit 
+    - Root bursts open, splits and becomes two nodes with ceiling((m/2) - 1) keys
+    - Make new root --> Hoist up middle key 
+
+
+B-Tree Removal (3-ary tree): 
+
+    - Find key for removal and swap with either successor/predecessor (left most child of right branch or right most child or left branch)
+    - Recursively remove key from leaf spot 
+    - In case where leaf node has underflowed: 
+        - Borrow from left sibling/right sibling --> If they are above minimum key threshold
+            - In case where sibling is above threshold, hoist up borrowed key to common ancestor and move ancestor down
+        - While node is below threshold: (eg. after pulling down, parent node will have no keys)
+            - Merge with left sibling + pull down parent node to from m-1 full node
+            - Once at root, delete now empty root, and set new combined node as root
+
+
+
+- Propogation is rare if m is large!!! 
+- 1/m^2 chance for one propogation up 
+
+- Thrashing may occur from repeated inserts and removes 
+
+
+Sparsest B-Tree Possible: 
+
+Minimum # of keys in a B-tree of height h > 0 : 
+
+GEOMETRIC SUM (REVIEW!!)
+
+-> 1 + 2 (b-1) * b^h - 1/ b - 1 = 1 + 2((b^n) - 1)
+
+Minimum # of keys of height h 
+
+n >= 1 + 2 ((ceiling(m/2)^h) - 1)
+
+log(n) >= h
+

@@ -1,0 +1,34 @@
+A "good" algorithm should: 
+    -Produce the correct solution (or close to correct)
+    -Finish in a "reasonable" amount of time 
+        -Time complexity
+    -Use a "reasonable" amount of system memory 
+        -Space complexity 
+
+
+Running time, expressed as 
+T(n): zero + all positive numbers to --> Zero & positive real numbers
+
+Big-O: 
+
+T(n) is O(f(n)) if there are constants c (any positive number) and n0 st: 
+T(n) <= c * f(n) for all n >= n0
+
+-Allows us to describe an upper bound on the growth behaviour of an algorithm's running time function T(n)
+-The "smallest" reference function that satisfies the O relation is called a tight upper bound
+
+Big-Omega: 
+
+T(n) Omega(f(n)) if there are positive constants c and n0 st:
+T(n) >= c * f(n) for all n >= n0 
+
+Big-Theta: 
+
+T(n) Theta(f(n)) if T(n) is O(f(n)) and T(n) Omega(f(n))
+
+Memory: 
+
+Read: CPU provides address i --> Memory returns the data stored at i 
+
+Write: CPU provides address i and data d --> Memory stores  data d at address i 
+
