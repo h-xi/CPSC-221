@@ -1,0 +1,18 @@
+DFS: Visit each vertex, classifies each edge as DISCOVERY or BACK
+
+RUNTIME = Theta(n + m) --> vertices + edges
+
+One full Traversal of graph: 
+
+For all vertices in graph --> set label to UNVISITED 
+For all edges in graph --> set label to UNEXPLORED 
+
+For all vertices, if label = UNVISITED --> DFS(G,V)
+
+
+DFS Algos: 
+
+Start at vertex v --> set label to visited 
+For all adjacent vertices if UNVISITED --> edge = DISCOVERY 
+    DFS(G, adjacent vertex)
+else if edge = UNEXPLORED --> Set label as BACK 

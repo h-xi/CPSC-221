@@ -1,0 +1,74 @@
+Set ADT: Utilised for Graph traversals
+
+Required Operations: MakeSet + Union + Find 
+
+We want to: 
+
+-Initialize a network of people, none connected 
+-Each time we learn that a pair trusts each other, merge them into the same set (union)
+- Determine if people share a trust group by finding which set each is in (two finds)
+
+Data Structure for Disjoint Set: 
+
+Maintain a collection S = {s0, s1, s2, ..., sk}
+
+- Each set has a representative number 
+
+
+Array based structure: 
+
+index = element, value = representative number 
+
+Find = O(1)
+Union = O(n) --> iterate element to update array content to parent 
+
+Uptrees: 
+
+- Still array-based, but representative is the root of the tree 
+    - if array value is -1, then index is a root node 
+    - otherwise, array value is the index's parent
+
+    - x + y are in the same tree --> x and y are in the same set
+
+- Unions: 
+
+    - Given arbitrary indices x and y, join their trees: 
+        - naively: set root of x to y, vice versa
+        - slightly better: set root of x to root of y and vice versa
+            - still get bad trees! 
+    
+    - Smart Unions: 
+
+        - Union by size: Take tree with smaller number of nodes and attach to tree with greater number of nodes
+            - increases distance from root for as few nodes as possible
+
+        - Union by height: Take shorter tree and attach to taller tree 
+            - Keeps overall tree height as small as possible
+            - Heights of trees will only increase when we are performing union on two trees with same height 
+
+    
+    BOTH: Guarantee that height is O(log(n))
+
+
+    Find: O(1) - O(n) depending on structure of tree --> smart union: O(log(n))
+    Union: O(log(n))
+
+- Path Compression: 
+
+    - During a Find operation, we follow a path up the tree through a sequence of nodes 
+        - We look up a number entries in an array, where each lookup is O(1)
+        - As we're going up path, keep track of where we passed by, once we find out root
+            - Update every node in path to root :) 
+            - More find that occurs, the flatter the tree becomes 
+
+Combination of Smart Union + Path Compression: 
+
+Amortized worst case: n * ( 1 + log*n)
+--> log* --> number of times to take log of a number to get down to 1
+--> Any practical application --> nearly constant time :D 
+
+
+
+
+    
+

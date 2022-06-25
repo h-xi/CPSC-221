@@ -1,0 +1,221 @@
+Graphs: 
+
+Collection of vertices (or nodes) connected by edges
+
+Graph = two tuple G = (V, E) 
+    - V is a set of anything 
+    - E is a set of two-tuples (u,v) where u and v incident on V
+
+Terminology: 
+
+Subgraph: 
+    - G'=(V',E') is a subgraph of G=(V,E) if and only if V' is subset of V and E' is a subset E
+    - and if edge is in subgraph then edge also exists within OG graph
+
+Degree: 
+    - Number of edges that touch vertex v 
+
+Adjacent Vertices: 
+    - When a vertex shares an edge with vertex in question --> adjacent vertex
+
+Incident Edges: 
+    - All edges that touch on vertex
+
+Planar Graph: 
+    - Graph that can be drawn in the plane with no crossing edges
+
+Walk: 
+    - Seqeunce of vertices between which there is an edge
+
+Trail: 
+    - Walk with no repeated edges 
+
+Path (alt): 
+    - Walk with no repeated vertices
+
+Circuit: 
+    - Trail that begins and ends in the same place 
+
+Cycle: 
+    - Path that begins and ends in the same place
+
+Complete Graph: 
+    - Graph G = (V, E) is complete if and only if: 
+        - Every possible edge is in the graph
+        - # of edges in complete graph --> One vertex, how many edges coming out of it? 
+            - # of edges * (# of edges - 1) / 2
+Clique: 
+    - Connected subgraph
+Connected (sub)graph: 
+    - G = (V,E) is connected if there is a path from u to v for all u, v in v
+
+Connected Components: 
+    - A maximal connected subgraph 
+
+Connected Compliment: 
+    - a subgraph G' (V', E') where there is a path from any vertex to any other vertex in V'
+
+Spanning Tree: 
+    - Connected, acyclic subgraph, containing all the vertices in V
+
+Sparse Graph: |E| = O(|V|) --> # of edges linearly bounded by # of vertices
+    - eg. Any tree fits definition of sparse graph
+
+Weighted Graph: Edges have different values (eg. capacity of traffic pattern could handle)
+
+Directed Graph: Edges goes from a vertex to another --> Direction of edge matters 
+
+Simple Graph: 
+    - Graph does not have more than one edge between any two vertices (multi-edges)
+    - No edge starts and ends at the same vertex. (self loop)
+
+
+Graph Theory: 
+
+    - |V| = n, |E| = m 
+    Connected Graph: 
+        - Minimum number of edges: n-1
+    Disconnected Graph: 
+        - Minimum number of edges: 0 
+    Simple Graph: 
+        - Maximum: (n*(n-1))/2
+            - Count how many edges are coming out of vertex 
+            - Multiply by number vertices 
+            - Divide by 2 b.c you're counting twice 
+    
+    Sum of Degree of Vertices: <= n* (n-1)
+    - 2* # of edges --> HandShaking Theorom
+
+Graph Traversal: 
+    - Objective: Visit every vertex and every edge in the graph respecting the graph's structure 
+    - Purpose: Search for interesting substructures in graph 
+        - Solution paths 
+        - Shortest path 
+        - Connected components 
+    
+    BFS: Theta(m+n)
+        - BFS Traverse: 
+            - For all vertices, label UNEXPLORED 
+            - For all edges, label UNEXPLORED 
+
+            For all vertices, if vertices == UNEXPLORED: 
+                BFS(G, v); <- One connected component. 
+        
+        - BFS: 
+            - Intiate queue
+            - SetLabel v as VISITED 
+            - Enqueue v 
+            while queue is NOT empty: 
+                pop v
+                if adjacent vertices are unexplored, label as VISITED + enqueue 
+                    - Label incident edges to DISCOVERY 
+                Else if vertices explored but edge is unexplored: 
+                    - Label as Cross edge 
+    
+        -  Observations:
+            - Discovery edges form a tree 
+            - The distance describes: shortest path from root 
+            - One BFS = one connected component 
+    DFS: Theta(m+n) BUT adjacency matrix --> O(n^2)
+        - DFS Traverse: 
+            - For all vertices, label UNEXPLORED 
+            - For all edges, label UNEXPLORED 
+
+            For all Vertices, if Vertices === UNEXPLORED: 
+                DFS(G, V) <- One connected Component
+        
+        - DFS: 
+            - setLabel of v to visited: 
+            - For all w in adjacent vertices: 
+                - if w is unvisited --> Mark as Visited 
+                - Mark edge as Discovery 
+                DFS(G, v)
+
+                - if vertex is visisted but edge is unvisited: 
+                    - Mark edge as back
+
+Implementation: 
+
+    - Functions: 
+        - insertVertex 
+        - insertEdge 
+        - removeEdge 
+        - removeVertex 
+        - incidedentEdges
+        - areAdjacent
+        - origin (Directed)
+        - destination (Directed)
+    
+    - Data: 
+        - Vertices (+ data) --> name, account number, status
+        - Edges (+ data) --> capacity
+
+        - Some struture that reflects the connectivity of graph
+    
+    IMPLEMENTATION OPTIONS: 
+
+    1) Adjacency Matrix: 
+        - Represent vertices with hash table 
+            - Connect name of vertex to an index in table
+        - Represent edges with hash table 
+            - Map name of edges to pair of vertices they connect
+        - Represent graph structure with a 2-D Array 
+            - Graph is symmetrical so only necessary to store half
+        
+        - RUNTIMES: 
+            - areAdjacent: O(1)
+                - Look at some entry in 2-d array
+            - insertVertex: O(n^2) --> Amortized O(n)
+            - incidentEdges: O(n)
+            - removeVertex: Amortized O(n)
+                - How to remove vertex in middle of arary? 
+                    - Swap indices (swap row + column)
+                    - Delete last row+column
+    
+    2) Adjacency List: 
+        - Vertices stored in Hash table that maps name to index and stores a linked list to all incident edges
+        - Utilise Doubly Linked list to be able to delete and have easy access to predecessor
+
+        - RUNTIME: 
+            - insertVertex: O(1)
+            - removeVertex: summation of degree(v) + degree of all vertices that v is adjacent to --> O(m^2)
+                - Add two pointers to where they are in other vertices adjacency list 
+                    - Store pointers in Edge table --> O(deg(v))
+            - incidentEdges: O(deg(v)) 
+            - areAdjacent: 
+                - Iterate list at same time, if one list is shorter will reach list first. 
+                - O(min(deg(v), deg(u)))
+    
+    3) Edge List: 
+        - Maintain list of edges in a hash table 
+            - Map edge name to index 
+                - Store vertices edge is incident on
+
+
+Maze Construction: 
+
+Imagine rooms = vertices, edge = wall broken down between them 
+
+1) While edge remain in E 
+    - Remove a random edge e = (u, v) from E 
+    - If u and v have not yet been connected: 
+        - add e to E' 
+        - mark u and v as connected 
+
+Topological Sort: 
+
+Two ways: 
+
+1) Label each vertex's in-degree --> the number of vertices pointing towards 
+    - Initialize a queue to contain all in-degree zero vertices: 
+    - While there are vertices remaining in the queue: 
+        - Dequeue a vertex v (with in-degree zero) and output it 
+        - Reduce the in-degree of all vertices adjacent to v 
+        - Put any of those with new in-degree zero on the queue 
+
+2) Take the graph and reverse all edges, Find vertex of degree zero and run DFS 
+    --> output the vertex in postOrder
+
+Minimum Spanning Tree: 
+
+-
